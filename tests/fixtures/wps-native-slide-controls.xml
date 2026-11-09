@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='utf-8'?>
+<wps-slide-control-sample xmlns:ns0="http://schemas.openxmlformats.org/presentationml/2006/main" xmlns:ns1="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:ns2="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:ns3="http://www.wps.cn/officeDocument/2020/jdeControlExtension" xmlns:ns4="http://schemas.openxmlformats.org/package/2006/relationships"><ns0:sld><ns0:cSld><ns0:spTree><ns0:nvGrpSpPr><ns0:cNvPr id="1" name="" /><ns0:cNvGrpSpPr /><ns0:nvPr /></ns0:nvGrpSpPr><ns0:grpSpPr /><ns0:pic><ns0:nvPicPr><ns0:cNvPr id="2" name="CommandButton1" /><ns0:cNvPicPr /><ns0:nvPr /></ns0:nvPicPr><ns0:blipFill><ns1:blip ns2:embed="rId1" /><ns1:stretch><ns1:fillRect /></ns1:stretch></ns0:blipFill><ns0:spPr><ns1:xfrm><ns1:off x="775335" y="463550" /><ns1:ext cx="1397635" cy="425450" /></ns1:xfrm><ns1:prstGeom prst="rect"><ns1:avLst /></ns1:prstGeom><ns1:extLst><ns3:jdecontrolRef ns2:id="rId2" /></ns1:extLst></ns0:spPr></ns0:pic><ns0:pic><ns0:nvPicPr><ns0:cNvPr id="3" name="CheckBox1" /><ns0:cNvPicPr /><ns0:nvPr /></ns0:nvPicPr><ns0:blipFill><ns1:blip ns2:embed="rId3" /><ns1:stretch><ns1:fillRect /></ns1:stretch></ns0:blipFill><ns0:spPr><ns1:xfrm><ns1:off x="775335" y="1091565" /><ns1:ext cx="1397635" cy="746125" /></ns1:xfrm><ns1:prstGeom prst="rect"><ns1:avLst /></ns1:prstGeom><ns1:extLst><ns3:jdecontrolRef ns2:id="rId4" /></ns1:extLst></ns0:spPr></ns0:pic><ns0:pic><ns0:nvPicPr><ns0:cNvPr id="4" name="ListBox1" /><ns0:cNvPicPr /><ns0:nvPr /></ns0:nvPicPr><ns0:blipFill><ns1:blip ns2:embed="rId5" /><ns1:stretch><ns1:fillRect /></ns1:stretch></ns0:blipFill><ns0:spPr><ns1:xfrm><ns1:off x="2317750" y="463550" /><ns1:ext cx="1797685" cy="1374140" /></ns1:xfrm><ns1:prstGeom prst="rect"><ns1:avLst /></ns1:prstGeom><ns1:extLst><ns3:jdecontrolRef ns2:id="rId6" /></ns1:extLst></ns0:spPr></ns0:pic><ns0:pic><ns0:nvPicPr><ns0:cNvPr id="5" name="ComboBox1" /><ns0:cNvPicPr /><ns0:nvPr /></ns0:nvPicPr><ns0:blipFill><ns1:blip ns2:embed="rId7" /><ns1:stretch><ns1:fillRect /></ns1:stretch></ns0:blipFill><ns0:spPr><ns1:xfrm><ns1:off x="4246880" y="463550" /><ns1:ext cx="1259840" cy="628015" /></ns1:xfrm><ns1:prstGeom prst="rect"><ns1:avLst /></ns1:prstGeom><ns1:extLst><ns3:jdecontrolRef ns2:id="rId8" /></ns1:extLst></ns0:spPr></ns0:pic><ns0:pic><ns0:nvPicPr><ns0:cNvPr id="6" name="OptionButton1" /><ns0:cNvPicPr /><ns0:nvPr /></ns0:nvPicPr><ns0:blipFill><ns1:blip ns2:embed="rId9" /><ns1:stretch><ns1:fillRect /></ns1:stretch></ns0:blipFill><ns0:spPr><ns1:xfrm><ns1:off x="4246880" y="1438275" /><ns1:ext cx="793750" cy="399415" /></ns1:xfrm><ns1:prstGeom prst="rect"><ns1:avLst /></ns1:prstGeom><ns1:extLst><ns3:jdecontrolRef ns2:id="rId10" /></ns1:extLst></ns0:spPr></ns0:pic><ns0:pic><ns0:nvPicPr><ns0:cNvPr id="7" name="TextEdit1" /><ns0:cNvPicPr /><ns0:nvPr /></ns0:nvPicPr><ns0:blipFill><ns1:blip ns2:embed="rId11" /><ns1:stretch><ns1:fillRect /></ns1:stretch></ns0:blipFill><ns0:spPr><ns1:xfrm><ns1:off x="775335" y="2334895" /><ns1:ext cx="1397635" cy="694055" /></ns1:xfrm><ns1:prstGeom prst="rect"><ns1:avLst /></ns1:prstGeom><ns1:extLst><ns3:jdecontrolRef ns2:id="rId12" /></ns1:extLst></ns0:spPr></ns0:pic><ns0:pic><ns0:nvPicPr><ns0:cNvPr id="8" name="Label1" /><ns0:cNvPicPr /><ns0:nvPr /></ns0:nvPicPr><ns0:blipFill><ns1:blip ns2:embed="rId13" /><ns1:stretch><ns1:fillRect /></ns1:stretch></ns0:blipFill><ns0:spPr><ns1:xfrm><ns1:off x="2317750" y="2334895" /><ns1:ext cx="1797685" cy="694055" /></ns1:xfrm><ns1:prstGeom prst="rect"><ns1:avLst /></ns1:prstGeom><ns1:extLst><ns3:jdecontrolRef ns2:id="rId14" /></ns1:extLst></ns0:spPr></ns0:pic><ns0:pic><ns0:nvPicPr><ns0:cNvPr id="9" name="ToggleButton1" /><ns0:cNvPicPr /><ns0:nvPr /></ns0:nvPicPr><ns0:blipFill><ns1:blip ns2:embed="rId15" /><ns1:stretch><ns1:fillRect /></ns1:stretch></ns0:blipFill><ns0:spPr><ns1:xfrm><ns1:off x="4246880" y="2334895" /><ns1:ext cx="1069340" cy="694055" /></ns1:xfrm><ns1:prstGeom prst="rect"><ns1:avLst /></ns1:prstGeom><ns1:extLst><ns3:jdecontrolRef ns2:id="rId16" /></ns1:extLst></ns0:spPr></ns0:pic><ns0:pic><ns0:nvPicPr><ns0:cNvPr id="10" name="ScrollBar1" /><ns0:cNvPicPr /><ns0:nvPr /></ns0:nvPicPr><ns0:blipFill><ns1:blip ns2:embed="rId17" /><ns1:stretch><ns1:fillRect /></ns1:stretch></ns0:blipFill><ns0:spPr><ns1:xfrm><ns1:off x="5618480" y="2334895" /><ns1:ext cx="1318895" cy="694055" /></ns1:xfrm><ns1:prstGeom prst="rect"><ns1:avLst /></ns1:prstGeom><ns1:extLst><ns3:jdecontrolRef ns2:id="rId18" /></ns1:extLst></ns0:spPr></ns0:pic><ns0:pic><ns0:nvPicPr><ns0:cNvPr id="11" name="SpinButton1" /><ns0:cNvPicPr /><ns0:nvPr /></ns0:nvPicPr><ns0:blipFill><ns1:blip ns2:embed="rId19" /><ns1:stretch><ns1:fillRect /></ns1:stretch></ns0:blipFill><ns0:spPr><ns1:xfrm><ns1:off x="5867400" y="463550" /><ns1:ext cx="846455" cy="824230" /></ns1:xfrm><ns1:prstGeom prst="rect"><ns1:avLst /></ns1:prstGeom><ns1:extLst><ns3:jdecontrolRef ns2:id="rId20" /></ns1:extLst></ns0:spPr></ns0:pic></ns0:spTree></ns0:cSld><ns0:clrMapOvr><ns1:masterClrMapping /></ns0:clrMapOvr></ns0:sld><ns4:Relationships><ns4:Relationship Id="rId9" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image5.png" /><ns4:Relationship Id="rId8" Type="http://www.wps.cn/officeDocument/2020/jdeControlExtension" Target="../jdecontrols/jdecontrol4.xml" /><ns4:Relationship Id="rId7" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image4.png" /><ns4:Relationship Id="rId6" Type="http://www.wps.cn/officeDocument/2020/jdeControlExtension" Target="../jdecontrols/jdecontrol3.xml" /><ns4:Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image3.png" /><ns4:Relationship Id="rId4" Type="http://www.wps.cn/officeDocument/2020/jdeControlExtension" Target="../jdecontrols/jdecontrol2.xml" /><ns4:Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image2.png" /><ns4:Relationship Id="rId21" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout3.xml" /><ns4:Relationship Id="rId20" Type="http://www.wps.cn/officeDocument/2020/jdeControlExtension" Target="../jdecontrols/jdecontrol10.xml" /><ns4:Relationship Id="rId2" Type="http://www.wps.cn/officeDocument/2020/jdeControlExtension" Target="../jdecontrols/jdecontrol1.xml" /><ns4:Relationship Id="rId19" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image10.png" /><ns4:Relationship Id="rId18" Type="http://www.wps.cn/officeDocument/2020/jdeControlExtension" Target="../jdecontrols/jdecontrol9.xml" /><ns4:Relationship Id="rId17" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image9.png" /><ns4:Relationship Id="rId16" Type="http://www.wps.cn/officeDocument/2020/jdeControlExtension" Target="../jdecontrols/jdecontrol8.xml" /><ns4:Relationship Id="rId15" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image8.png" /><ns4:Relationship Id="rId14" Type="http://www.wps.cn/officeDocument/2020/jdeControlExtension" Target="../jdecontrols/jdecontrol7.xml" /><ns4:Relationship Id="rId13" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image7.png" /><ns4:Relationship Id="rId12" Type="http://www.wps.cn/officeDocument/2020/jdeControlExtension" Target="../jdecontrols/jdecontrol6.xml" /><ns4:Relationship Id="rId11" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image6.png" /><ns4:Relationship Id="rId10" Type="http://www.wps.cn/officeDocument/2020/jdeControlExtension" Target="../jdecontrols/jdecontrol5.xml" /><ns4:Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image1.png" /></ns4:Relationships><ns3:jdecontrol>
+    <control type="commandbutton">
+        <property type="actions">
+            <enabled>true</enabled>
+            <word_wrap>true</word_wrap>
+            <auto_size>false</auto_size>
+            <accelerator />
+        </property>
+        <property type="facade">
+            <caption>CommandButton1</caption>
+            <name>CommandButton1</name>
+            <back_color>4292401368</back_color>
+            <fore_color>4278190080</fore_color>
+            <visible>true</visible>
+            <back_style>true</back_style>
+        </property>
+        <property type="geometry">
+            <left>775335</left>
+            <top>463550</top>
+            <width>1397635</width>
+            <height>425450</height>
+        </property>
+        <property type="font">
+            <font>
+                <family>宋体</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <underline>false</underline>
+                <strickout>false</strickout>
+            </font>
+        </property>
+    </control>
+</ns3:jdecontrol><ns3:jdecontrol>
+    <control type="checkbox">
+        <property type="actions">
+            <enabled>true</enabled>
+            <word_wrap>true</word_wrap>
+            <auto_size>false</auto_size>
+            <accelerator />
+        </property>
+        <property type="facade">
+            <caption>CheckBox1</caption>
+            <name>CheckBox1</name>
+            <back_color>4292401368</back_color>
+            <fore_color>4278190080</fore_color>
+            <visible>true</visible>
+            <back_style>true</back_style>
+            <value>false</value>
+        </property>
+        <property type="geometry">
+            <left>775335</left>
+            <top>1091565</top>
+            <width>1397635</width>
+            <height>746125</height>
+        </property>
+        <property type="font">
+            <font>
+                <family>宋体</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <underline>false</underline>
+                <strickout>false</strickout>
+            </font>
+        </property>
+    </control>
+</ns3:jdecontrol><ns3:jdecontrol>
+    <control type="combobox">
+        <property type="actions">
+            <enabled>true</enabled>
+            <text_align>1</text_align>
+            <auto_size>false</auto_size>
+            <max_length>32767</max_length>
+        </property>
+        <property type="data">
+            <top_index>0</top_index>
+            <bound_column>1</bound_column>
+            <column_count>1</column_count>
+            <column_heads>false</column_heads>
+            <column_widths />
+            <list_rows>8</list_rows>
+        </property>
+        <property type="facade">
+            <name>ComboBox1</name>
+            <back_color>4294967295</back_color>
+            <fore_color>4278190080</fore_color>
+            <visible>true</visible>
+            <back_style>true</back_style>
+            <border_style>false</border_style>
+            <border_color>4285558896</border_color>
+            <text />
+            <value />
+        </property>
+        <property type="geometry">
+            <left>4246880</left>
+            <top>463550</top>
+            <width>1259840</width>
+            <height>628015</height>
+        </property>
+        <property type="font">
+            <font>
+                <family>宋体</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <underline>false</underline>
+                <strickout>false</strickout>
+            </font>
+        </property>
+    </control>
+</ns3:jdecontrol><ns3:jdecontrol>
+    <control type="textedit">
+        <property type="actions">
+            <enabled>true</enabled>
+            <text_align>1</text_align>
+            <word_wrap>true</word_wrap>
+            <auto_size>false</auto_size>
+            <max_length>32767</max_length>
+        </property>
+        <property type="facade">
+            <name>TextEdit1</name>
+            <back_color>4294967295</back_color>
+            <fore_color>4278190080</fore_color>
+            <visible>true</visible>
+            <back_style>true</back_style>
+            <border_style>false</border_style>
+            <border_color>4278190080</border_color>
+            <text />
+            <value />
+            <password_char />
+        </property>
+        <property type="geometry">
+            <left>775335</left>
+            <top>2334895</top>
+            <width>1397635</width>
+            <height>694055</height>
+        </property>
+        <property type="font">
+            <font>
+                <family>宋体</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <underline>false</underline>
+                <strickout>false</strickout>
+            </font>
+        </property>
+    </control>
+</ns3:jdecontrol><ns3:jdecontrol>
+    <control type="label">
+        <property type="actions">
+            <enabled>true</enabled>
+            <text_align>1</text_align>
+            <word_wrap>true</word_wrap>
+            <auto_size>false</auto_size>
+            <accelerator />
+        </property>
+        <property type="facade">
+            <caption>Label1</caption>
+            <name>Label1</name>
+            <back_color>4292401368</back_color>
+            <fore_color>4278190080</fore_color>
+            <visible>true</visible>
+            <back_style>true</back_style>
+            <border_style>false</border_style>
+            <border_color>4278190080</border_color>
+        </property>
+        <property type="geometry">
+            <left>2317750</left>
+            <top>2334895</top>
+            <width>1797685</width>
+            <height>694055</height>
+        </property>
+        <property type="font">
+            <font>
+                <family>宋体</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <underline>false</underline>
+                <strickout>false</strickout>
+            </font>
+        </property>
+    </control>
+</ns3:jdecontrol></wps-slide-control-sample>

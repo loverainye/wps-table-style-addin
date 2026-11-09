@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="OnTableStylesLoad">
+  <ribbon startFromScratch="false">
+    <tabs>
+      <tab id="TableStyleEditorTab" label="表格样式编辑器">
+        <group id="TableStyleEditorGroup" label="当前文稿">
+          <button id="OpenTableStylesButton" label="编辑样式" size="large" onAction="OpenTableStyles" getImage="GetTableStylesImage" screentip="在功能区下方展开编辑器" supertip="默认顶部停靠，横向铺满并展开至 WPS 允许的最大高度。布局菜单可切换浮动或右侧最大宽度。"/>
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>

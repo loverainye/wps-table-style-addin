@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<document version="2.0">
+    <name>Project</name>
+    <property desc="" lock="false" password="" />
+    <activemodule>2</activemodule>
+    <codemodule name="Module1" id="1">
+        <window cursorpos="0" actived="true" visible="true" />
+        <codetext></codetext>
+    </codemodule>
+    <dlgmodule name="UserForm1" id="2">
+        <window visible="true" />
+        <control type="form">
+            <property type="facade">
+                <caption>Form</caption>
+                <name>UserForm1</name>
+                <back_color>4292401368</back_color>
+                <fore_color>4278190080</fore_color>
+                <border_style>false</border_style>
+                <border_color>4278190080</border_color>
+                <show_modal>true</show_modal>
+                <startup_position>1</startup_position>
+            </property>
+            <property type="geometry">
+                <left>0</left>
+                <top>0</top>
+                <width>4762500</width>
+                <height>4762500</height>
+                <width_policy>1</width_policy>
+                <height_policy>1</height_policy>
+            </property>
+            <property type="layout">
+                <layout_type>1</layout_type>
+            </property>
+            <property type="font">
+                <font>
+                    <family>宋体</family>
+                    <pointsize>10</pointsize>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <underline>false</underline>
+                    <strickout>false</strickout>
+                </font>
+            </property>
+            <control type="commandbutton">
+                <property type="actions">
+                    <enabled>true</enabled>
+                    <word_wrap>true</word_wrap>
+                    <auto_size>false</auto_size>
+                    <accelerator></accelerator>
+                </property>
+                <property type="facade">
+                    <caption>CommandButton1</caption>
+                    <name>CommandButton1</name>
+                    <back_color>4292401368</back_color>
+                    <fore_color>4278190080</fore_color>
+                    <visible>true</visible>
+                    <back_style>true</back_style>
+                </property>
+                <property type="geometry">
+                    <left>895350</left>
+                    <top>514350</top>
+                    <width>1143000</width>
+                    <height>381000</height>
+                    <width_policy>1</width_policy>
+                    <height_policy>1</height_policy>
+                </property>
+                <property type="others">
+                    <tab_index>0</tab_index>
+                    <tab_stop>true</tab_stop>
+                </property>
+                <property type="font">
+                    <font>
+                        <family>宋体</family>
+                        <pointsize>10</pointsize>
+                        <weight>50</weight>
+                        <italic>false</italic>
+                        <underline>false</underline>
+                        <strickout>false</strickout>
+                    </font>
+                </property>
+            </control>
+        </control>
+    </dlgmodule>
+    <functionsdata />
+</document>

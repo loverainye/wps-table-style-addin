@@ -1,0 +1,80 @@
+name: Build and publish WPS table style tools
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag
+        required: true
+        default: v1.0
+
+permissions:
+  contents: write
+
+jobs:
+  installer:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm run build
+      - run: python -m unittest discover -s tests -p test_install.py
+      - if: runner.os == 'Windows'
+        shell: powershell
+        run: ./tests/install-smoke.ps1
+      - if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          TEST_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TEST_DIR"' EXIT
+          bash install.sh --config "$TEST_DIR/publish.xml"
+          bash install.sh --config "$TEST_DIR/publish.xml"
+          bash uninstall.sh --config "$TEST_DIR/publish.xml"
+  release:
+    needs: installer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y fontconfig fonts-noto-cjk
+      - run: python -m pip install --upgrade pillow
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: python3 scripts/package.py
+      - run: npm run build:slide-macro
+      - run: python3 scripts/package_slide_macro.py
+      - name: Publish GitHub release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          generate_release_notes: true
+          files: |
+            release/wps-table-style-addin-*.tar.gz
+            release/wps-table-style-addin-*.zip
+            release/wps-table-style-slide-macro-*.zip
+            release/slide-macro/*.pptm

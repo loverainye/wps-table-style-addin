@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>表格样式编辑器</title>
+  <link rel="stylesheet" href="editor.css">
+  <script defer src="editor.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div id="macro-files" class="macro-files" hidden><button id="open-file" class="text-button">打开 PPTX</button><button id="use-current" class="text-button">当前文稿</button></div>
+    <div class="window-controls">
+      <label class="layout-control"><select id="layout" aria-label="编辑区布局"><option value="workspace" selected>上侧</option><option value="floating">浮动</option><option value="sidebar">右侧</option></select></label>
+      <div class="zoom-control" role="group" aria-label="表单缩放">
+        <select id="zoom-level" aria-label="表单缩放比例" title="缩放比例；选择 100% 恢复原大小"></select>
+        <button id="zoom-out" class="icon-button zoom-button" title="缩小表单" aria-label="缩小表单"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path></svg></button>
+        <input id="zoom-slider" type="range" min="50" max="200" step="10" value="100" aria-label="调整表单缩放比例" aria-valuetext="100%">
+        <button id="zoom-in" class="icon-button zoom-button" title="放大表单" aria-label="放大表单"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M12 5v14"></path></svg></button>
+      </div>
+      <button id="fit-window" class="icon-button fit-button" title="展开至最大尺寸；已经最大时忽略点击" aria-label="展开"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 3H3v5M3 3l6 6M16 3h5v5M21 3l-6 6M3 16v5h5M3 21l6-6M21 16v5h-5M21 21l-6-6"></path></svg></button>
+      <button id="apply" class="icon-button save-button" title="保存并应用（手动重新打开文稿查看）" aria-label="保存并应用" disabled><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 3h13l4 4v14H3V3h1ZM7 3v7h10V3M7 21v-7h10v7M14 5v3"></path></svg></button>
+    </div>
+  </header>
+  <div id="status" role="status" aria-live="polite" hidden></div>
+  <main id="editor-form">
+    <p id="macro-empty" class="hint" hidden>点击“打开 PPTX”加载需要编辑的文件。</p>
+    <div id="workspace" hidden>
+      <section class="card">
+        <div class="section-heading"><h2>文稿中的样式</h2><button id="new" class="text-button">＋ 新建</button></div>
+        <div class="style-selector"><select id="style-list" aria-label="文稿中的样式"></select><button id="duplicate" class="secondary">复制</button></div>
+        <div id="new-form" class="new-form" hidden><label>从预设开始<select id="preset"><option value="green">答辩绿色</option><option value="red">经典红色</option><option value="blue">商务蓝色</option><option value="blank">空白网格</option></select></label><button id="create" class="primary small">创建样式</button><button id="cancel-new" class="text-button">取消</button></div>
+        <label class="name-field">样式名称<input id="style-name" maxlength="100" placeholder="例如：季度汇报表格"></label>
+        <p id="builtin-note" class="hint" hidden>此内置样式由 WPS 提供配色。点击“新建”创建可编辑的自定义样式。</p>
+      </section>
+      <section class="card preview-card">
+        <div class="section-heading"><h2>效果预览</h2><span class="muted">示例数据</span></div>
+        <div class="preview-wrap"><table id="preview" aria-label="表格样式效果预览"></table></div>
+        <div class="flags" id="flags">
+          <label><input type="checkbox" data-flag="firstRow" checked>标题行</label><label><input type="checkbox" data-flag="lastRow">汇总行</label>
+          <label><input type="checkbox" data-flag="firstCol">第一列</label><label><input type="checkbox" data-flag="lastCol">最后一列</label>
+          <label><input type="checkbox" data-flag="bandRow" checked>条纹行</label><label><input type="checkbox" data-flag="bandCol">条纹列</label>
+        </div>
+      </section>
+      <section class="card" id="format-card">
+        <div class="section-heading"><h2>区域格式</h2></div>
+        <label class="part-field">编辑区域<select id="part" aria-label="编辑表格区域"></select></label>
+        <div class="format-grid"><div class="color-field"><label for="fill-mode">单元格填充</label><div class="color-row"><select id="fill-mode" aria-label="填充方式"></select><input id="fill-color" type="color" aria-label="填充颜色" value="#385723"></div></div>
+        <div class="color-field"><label for="color-mode">文字颜色</label><div class="color-row"><select id="color-mode" aria-label="文字颜色方式"></select><input id="text-color" type="color" aria-label="文字颜色" value="#ffffff"></div></div></div>
+        <div class="format-grid typography"><label>加粗<select id="bold"><option value="inherit">继承</option><option value="on">加粗</option><option value="off">常规</option></select></label><label>斜体<select id="italic"><option value="inherit">继承</option><option value="on">斜体</option><option value="off">常规</option></select></label></div>
+        <details class="borders"><summary>边框设置<span>六个方向分别设置</span></summary><div id="border-fields"></div><button id="all-borders" class="text-button">将上边框设置应用到所有边框</button></details>
+      </section>
+      <details class="card font-default-card">
+        <summary>表格默认文字大小（高级）</summary>
+        <p id="font-default-current" class="hint"></p>
+        <label class="check-line"><input type="checkbox" id="set-font-default" aria-controls="font-default-fields">为表格中的文字设置默认字号</label>
+        <div id="font-default-fields" class="font-default-fields" hidden><label for="font-default-size">默认字号</label><input id="font-default-size" type="number" min="1" max="4000" step="0.01" value="18" inputmode="decimal" aria-describedby="font-default-note"><span>磅（pt）</span></div>
+        <p id="font-default-note" class="hint">修改当前文稿所有母版的“其他文本”默认字号；单元格已明确设置的字号保留，标题与正文母版格式保留。部分未单独设字号的文本框也可能继承此值。字号随文稿保存，复制表格样式时不会携带。</p>
+        <p class="hint">此设置应用于整个文稿，不受表格范围限制。</p>
+      </details>
+      <section class="card apply-card">
+        <h2>应用到当前文稿</h2>
+        <label class="scope-label">表格范围<select id="scope"><option value="linked">使用此样式的表格</option><option value="selected">当前选中的表格</option><option value="all">文稿中的所有表格</option><option value="none">不更改现有表格</option></select></label>
+        <label class="check-line"><input type="checkbox" id="set-default">设为当前文稿的默认表格样式</label>
+        <label class="check-line"><input type="checkbox" id="clear-overrides">清除目标表格的局部配色及字形覆盖</label>
+        <p class="hint">如手动填充、边框或加粗遮住了样式，可勾选清除覆盖。字号、尺寸和对齐方式保留。</p>
+      </section>
+      <details class="technical"><summary>样式标识</summary><code id="style-id"></code><p class="hint">修改样式定义时自动生成新的 ID，避免 WPS 显示旧配色。</p></details>
+    </div>
+  </main>
+</body>
+</html>

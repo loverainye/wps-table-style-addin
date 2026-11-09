@@ -1,0 +1,25 @@
+{
+  "name": "wps-presentation-table-styles",
+  "version": "1.0",
+  "private": true,
+  "type": "module",
+  "description": "WPS 演示当前文稿原生表格样式编辑器",
+  "addonType": "wpp",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs && python3 -m unittest discover -s tests -p 'test_*.py'",
+    "preview": "python3 scripts/serve.py",
+    "install:addin": "bash install.sh",
+    "package:linux": "python3 scripts/package.py",
+    "package:macro": "python3 scripts/package_macro.py",
+    "build:slide-macro": "node --input-type=module -e 'import {buildSlideMacro} from \"./scripts/build.mjs\"; await buildSlideMacro();'",
+    "package:slide-macro": "python3 scripts/package_slide_macro.py"
+  },
+  "dependencies": {
+    "jszip": "3.10.1"
+  },
+  "devDependencies": {
+    "@xmldom/xmldom": "^0.9.12",
+    "esbuild": "0.25.12"
+  }
+}

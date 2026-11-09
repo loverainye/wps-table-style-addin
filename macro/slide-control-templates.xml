@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='utf-8'?>
+<native-slide-controls source="幻灯片控件样本.ppt" units="EMU">
+  <control type="commandbutton">
+    <property type="actions">
+      <enabled>true</enabled>
+      <word_wrap>true</word_wrap>
+      <auto_size>false</auto_size>
+      <accelerator />
+    </property>
+    <property type="facade">
+      <caption>CommandButton1</caption>
+      <name>CommandButton1</name>
+      <back_color>4292401368</back_color>
+      <fore_color>4278190080</fore_color>
+      <visible>true</visible>
+      <back_style>true</back_style>
+    </property>
+    <property type="geometry">
+      <left>775335</left>
+      <top>463550</top>
+      <width>1397635</width>
+      <height>425450</height>
+    </property>
+    <property type="font">
+      <font>
+        <family>宋体</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <underline>false</underline>
+        <strickout>false</strickout>
+      </font>
+    </property>
+  </control>
+  <control type="checkbox">
+    <property type="actions">
+      <enabled>true</enabled>
+      <word_wrap>true</word_wrap>
+      <auto_size>false</auto_size>
+      <accelerator />
+    </property>
+    <property type="facade">
+      <caption>CheckBox1</caption>
+      <name>CheckBox1</name>
+      <back_color>4292401368</back_color>
+      <fore_color>4278190080</fore_color>
+      <visible>true</visible>
+      <back_style>true</back_style>
+      <value>false</value>
+    </property>
+    <property type="geometry">
+      <left>775335</left>
+      <top>1091565</top>
+      <width>1397635</width>
+      <height>746125</height>
+    </property>
+    <property type="font">
+      <font>
+        <family>宋体</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <underline>false</underline>
+        <strickout>false</strickout>
+      </font>
+    </property>
+  </control>
+  <control type="combobox">
+    <property type="actions">
+      <enabled>true</enabled>
+      <text_align>1</text_align>
+      <auto_size>false</auto_size>
+      <max_length>32767</max_length>
+    </property>
+    <property type="data">
+      <top_index>0</top_index>
+      <bound_column>1</bound_column>
+      <column_count>1</column_count>
+      <column_heads>false</column_heads>
+      <column_widths />
+      <list_rows>8</list_rows>
+    </property>
+    <property type="facade">
+      <name>ComboBox1</name>
+      <back_color>4294967295</back_color>
+      <fore_color>4278190080</fore_color>
+      <visible>true</visible>
+      <back_style>true</back_style>
+      <border_style>false</border_style>
+      <border_color>4285558896</border_color>
+      <text />
+      <value />
+    </property>
+    <property type="geometry">
+      <left>4246880</left>
+      <top>463550</top>
+      <width>1259840</width>
+      <height>628015</height>
+    </property>
+    <property type="font">
+      <font>
+        <family>宋体</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <underline>false</underline>
+        <strickout>false</strickout>
+      </font>
+    </property>
+  </control>
+  <control type="textedit">
+    <property type="actions">
+      <enabled>true</enabled>
+      <text_align>1</text_align>
+      <word_wrap>true</word_wrap>
+      <auto_size>false</auto_size>
+      <max_length>32767</max_length>
+    </property>
+    <property type="facade">
+      <name>TextEdit1</name>
+      <back_color>4294967295</back_color>
+      <fore_color>4278190080</fore_color>
+      <visible>true</visible>
+      <back_style>true</back_style>
+      <border_style>false</border_style>
+      <border_color>4278190080</border_color>
+      <text />
+      <value />
+      <password_char />
+    </property>
+    <property type="geometry">
+      <left>775335</left>
+      <top>2334895</top>
+      <width>1397635</width>
+      <height>694055</height>
+    </property>
+    <property type="font">
+      <font>
+        <family>宋体</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <underline>false</underline>
+        <strickout>false</strickout>
+      </font>
+    </property>
+  </control>
+  <control type="label">
+    <property type="actions">
+      <enabled>true</enabled>
+      <text_align>1</text_align>
+      <word_wrap>true</word_wrap>
+      <auto_size>false</auto_size>
+      <accelerator />
+    </property>
+    <property type="facade">
+      <caption>Label1</caption>
+      <name>Label1</name>
+      <back_color>4292401368</back_color>
+      <fore_color>4278190080</fore_color>
+      <visible>true</visible>
+      <back_style>true</back_style>
+      <border_style>false</border_style>
+      <border_color>4278190080</border_color>
+    </property>
+    <property type="geometry">
+      <left>2317750</left>
+      <top>2334895</top>
+      <width>1797685</width>
+      <height>694055</height>
+    </property>
+    <property type="font">
+      <font>
+        <family>宋体</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <underline>false</underline>
+        <strickout>false</strickout>
+      </font>
+    </property>
+  </control>
+</native-slide-controls>
