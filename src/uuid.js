@@ -12,9 +12,14 @@ export function normalizeUUID(value) {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(s)) throw new Error('系统返回了无效的 UUID v4。');
   return '{' + s.toUpperCase() + '}';
 }
+export function createUUID(crypto, random = Math.random) {
+  if (typeof crypto?.randomUUID === 'function') return normalizeUUID(crypto.randomUUID());
+  const bytes = new Uint8Array(16);
+  if (typeof crypto?.getRandomValues === 'function') crypto.getRandomValues(bytes);
+  else for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(random() * 256);
+  return uuidFromBytes(bytes);
+}
 export function guid() {
   if (provider) return normalizeUUID(provider());
-  if (typeof globalThis.crypto?.randomUUID === 'function') return normalizeUUID(globalThis.crypto.randomUUID());
-  if (typeof globalThis.crypto?.getRandomValues !== 'function') throw new Error('当前运行环境不支持安全 UUID 生成。');
-  return uuidFromBytes(globalThis.crypto.getRandomValues(new Uint8Array(16)));
+  return createUUID(globalThis.crypto);
 }

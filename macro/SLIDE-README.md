@@ -71,6 +71,6 @@ npm run build:slide-macro
 npm run package:slide-macro
 ```
 
-文件和 UUID 统一由 `platform-services.js` 提供。优先使用 WPS FileSystem / JS Crypto，缺少时才调用当前系统接口。Linux 使用 libc 和系统 UUID；macOS 使用 libSystem/getentropy；Windows 使用 Unicode 文件 API 和 BCryptGenRandom。NixOS 本地构建还会读取正在运行的 WPS 已加载的 libc 路径，并保留常见路径回退。测试用 Koffi 桥接实际系统 API，不会打包进宏模板。
+文件和 UUID 统一由 `platform-services.js` 提供。文件优先使用 WPS FileSystem，缺少时才调用 Linux libc、macOS libSystem 或 Windows Unicode 文件 API。UUID 优先用 JS Crypto，没有时使用纯 JS 生成 UUID v4 格式的 ID，不使用系统 UUID 文件或 FFI。NixOS 本地构建还会读取正在运行的 WPS 已加载的 libc 路径，并保留常见路径回退。测试用 Koffi 桥接实际系统文件 API，不会打包进宏模板。
 
 未修改已安装加载项、WPS 配置、原有独立窗体版、用户样本或参考母版。

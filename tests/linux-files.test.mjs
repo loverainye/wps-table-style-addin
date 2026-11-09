@@ -165,9 +165,9 @@ test('bundled macro with FFI and no Application.FileSystem edits a closed PPTX a
     vm.runInContext('globalThis.setImmediate = callback => Promise.resolve().then(callback);' + source, context);
     const hostApp = context.NativeTableStyles.installRuntime(context.Application);
     assert.equal(hostApp.FileSystem.library, library);
-    const randomBytes = new Uint8Array(20);
-    hostApp.TableStylePlatform.getRandomValues(randomBytes);
-    assert.equal(Buffer.from(randomBytes).toString('hex'), 'eb0f427656264b15a49917bfbb804bc5eb0f4276');
+    assert.match(hostApp.TableStylePlatform.uuid(), /^\{[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\}$/);
+    assert.equal(hostApp.TableStylePlatform.uuidBackend, 'JS Math.random');
+    assert.equal(m.calls.some(c => c[0] === 'open' && c[1] === '/proc/sys/kernel/random/uuid'), false);
     const { FileHost } = await import('../src/file-host.js');
     const host = new FileHost(hostApp);
     await host.openFile(); const info = await host.inspect();

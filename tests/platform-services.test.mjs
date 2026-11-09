@@ -42,43 +42,27 @@ test('global macro FileSystem and JS randomUUID work on every OS with no FFI or 
   }
 });
 
-test('native getRandomValues preserves receiver and fills only the requested view', () => {
+test('JS Crypto UUID generation uses the correct receiver and falls back to getRandomValues', () => {
   const crypto = { getRandomValues(bytes) { assert.equal(this, crypto); bytes.fill(255); return bytes; } };
   const services = createPlatformServices({ FileSystem: native(), Env: { GetTempPath: () => '/native/temp' } }, { crypto });
-  const buffer = new Uint8Array(32), view = new Uint8Array(buffer.buffer, 8, 16);
-  assert.equal(services.getRandomValues(view), view);
-  assert.deepEqual([...buffer.subarray(0, 8)], Array(8).fill(0));
-  assert.match(services.uuid(), v4);
   assert.equal(services.uuid(), '{FFFFFFFF-FFFF-4FFF-BFFF-FFFFFFFFFFFF}');
+  assert.equal(services.uuidBackend, 'JS crypto.getRandomValues');
   assert.equal(services.tempPath(), '/native/temp');
-  assert.throws(() => services.getRandomValues(new Float32Array(2)), /整数/);
-  assert.throws(() => services.getRandomValues(new Uint8Array(65537)), /65536/);
+  const preferred = createPlatformServices({ FileSystem: native() }, { crypto: { randomUUID, getRandomValues() { throw new Error('randomUUID must win'); } } });
+  assert.match(preferred.uuid(), v4);
 });
 
-test('UUID fallbacks use each OS and never silently fall back to Math.random', () => {
-  const fs = native(); fs.readFileString = p => { assert.equal(p, '/proc/sys/kernel/random/uuid'); return 'eb0f4276-5626-4b15-a499-17bfbb804bc5\n'; };
-  const linux = createPlatformServices({ FileSystem: fs }, { Platform: { OS: () => 'Linux' } });
-  assert.equal(linux.uuid(), '{EB0F4276-5626-4B15-A499-17BFBB804BC5}');
-  for (const [os, library, symbol] of [['Darwin', '/usr/lib/libSystem.B.dylib', 'getentropy'], ['Windows', 'bcrypt.dll', 'BCryptGenRandom']]) {
-    const ffi = { LoadLibrary(name, signature) {
-      assert.equal(name, library); assert.ok(signature[symbol]);
-      return { [symbol](...args) {
-        const buffer = os === 'Darwin' ? args[0] : args[1];
-        new Uint8Array(buffer).fill(23);
-        if (os === 'Windows') { assert.equal(args[0], null); assert.equal(args[3], 2); }
-        return 0;
-      } };
-    } };
-    const s = createPlatformServices({ FileSystem: native() }, { Platform: { OS: () => os }, ffi });
-    assert.equal(s.uuid(), '{17171717-1717-4717-9717-171717171717}');
-    const bytes = new Uint8Array(600); s.getRandomValues(bytes); assert.ok(bytes.every(x => x === 23));
+test('without Crypto, UUIDs are generated in JS without files, FFI, or operating-system knowledge', () => {
+  for (const os of ['Linux', 'Darwin', 'Windows', 'Other', '']) {
+    let calls = 0;
+    const fs = native(); fs.readFileString = () => { throw new Error('must not read system UUID files'); };
+    const services = createPlatformServices({ FileSystem: fs }, {
+      Platform: { OS: () => os }, Math: { random() { calls++; return Math.random(); } },
+      ffi: { LoadLibrary() { throw new Error('UUID must not use FFI'); } },
+    });
+    for (let i = 0; i < 200; i++) assert.match(services.uuid(), v4);
+    assert.equal(calls, 200 * 16); assert.equal(services.uuidBackend, 'JS Math.random');
   }
-  const unsupported = createPlatformServices({ FileSystem: native() }, { Platform: { OS: () => 'Other' } });
-  assert.throws(() => unsupported.uuid(), /没有 JS Crypto/);
-  fs.readFileString = () => 'invalid';
-  assert.throws(() => linux.uuid(), /UUID v4/);
-  const failed = createPlatformServices({ FileSystem: native() }, { Platform: { OS: () => 'Windows' }, ffi: { LoadLibrary() { return { BCryptGenRandom: () => -1 }; } } });
-  assert.throws(() => failed.uuid(), /获取系统随机数失败/);
 });
 
 test('Darwin file fallback uses fixed-signature creat to avoid Apple arm64 variadic open ABI', () => {

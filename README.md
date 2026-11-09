@@ -100,6 +100,6 @@ Linux 使用 `~/.local/share/Kingsoft/wps/jsaddons`；macOS 默认使用 `~/Libr
 
 加载项面向具备 JS 加载项、文件读写和任务窗格接口的 WPS 演示客户端，不适用于 WPS 在线文档；macOS 安装版还需允许 WPS 访问上述沙盒目录。安装脚本测试覆盖三平台，但尚未完成三平台 WPS 界面实机验证。
 
-宏模板需要客户端具备 JS 宏和原生 UserForm。优先使用 WPS 的全局 `FileSystem` 或 `Application.FileSystem`，UUID 优先使用 JS `crypto.randomUUID()` / `crypto.getRandomValues()`。接口缺失时才按系统选择 FFI 实现：Linux libc、macOS libSystem、Windows kernel32/bcrypt；不要求安装额外运行库或本地服务。
+宏模板需要客户端具备 JS 宏和原生 UserForm。文件读写优先使用 WPS 的全局 `FileSystem` 或 `Application.FileSystem`，缺少时才选择 Linux libc、macOS libSystem 或 Windows kernel32。UUID 优先使用 JS `crypto.randomUUID()` / `crypto.getRandomValues()`，没有 Crypto 时用纯 JS `Math.random()` 生成 UUID v4 格式的 ID，不读取系统 UUID 文件，不调用 FFI。
 
-三平台测试验证安装脚本和实际系统文件/随机数接口，未替代三平台 WPS 窗体、放映控件和 FFI 桥接的实机交互验证。Windows 使用 FFI 兜底时需 WPS 12.1.0.23542+；macOS/WPS 的具体发行版也必须开放上述宏能力。更多说明见 [宏版使用](macro/SLIDE-README.md) 和 [平台适配层](docs/platform-adapter.md)。
+三平台测试验证安装脚本、实际系统文件接口和 JS UUID 生成，未替代三平台 WPS 窗体、放映控件和 FFI 桥接的实机交互验证。Windows 使用 FFI 兜底时需 WPS 12.1.0.23542+；macOS/WPS 的具体发行版也必须开放上述宏能力。更多说明见 [宏版使用](macro/SLIDE-README.md) 和 [平台适配层](docs/platform-adapter.md)。
