@@ -34,7 +34,7 @@ jobs:
           python-version: '3.12'
       - run: npm ci
       - run: npm run build
-      - run: node --test tests/platform-services.test.mjs tests/native-platform.test.mjs
+      - run: node --test tests/platform-services.test.mjs tests/wps-file-system.test.mjs
       - run: python -m unittest discover -s tests -p test_install.py
       - if: runner.os == 'Windows'
         shell: powershell

@@ -1,31 +1,21 @@
-# 文件与 UUID 适配层
+# 文件接口说明
 
-`macro/platform-services.js` 向编辑器提供 `files`、`tempPath()`、`uuid()`，并通过 `macroApplication()` 包装 WPS 宿主。不会向 WPS 的 Application 代理写入属性。
+当前纯 UserForm 宏只依赖 WPS 原生文件接口，不再包含 Linux、macOS 或 Windows 专用文件实现。
 
-WPS 文件能力优先，UUID 完全由 JS 生成，各项能力独立选择：
+`macro/platform-services.js` 只做两件事：
 
-| 能力 | 优先接口 | 缺少时的实现 |
-| --- | --- | --- |
-| 二进制文件读写 | `Application.FileSystem`、宏全局 `FileSystem` | 当前系统的 FFI 文件接口 |
-| 临时目录 | `Application.Env.GetTempPath()`、全局 `Env`、`FileSystem.tmpdir()` | Linux `/tmp`；macOS `TMPDIR`；Windows `GetTempPathW` |
-| UUID v4 | JS `crypto.randomUUID()`，其次 `crypto.getRandomValues()` | 纯 JS `Math.random()` 生成 UUID v4 格式的 ID |
+- 从 `Application.FileSystem` 或宏全局 `FileSystem` 获取 WPS 文件对象；
+- 提供 JS UUID 生成器：`crypto.randomUUID()` → `crypto.getRandomValues()` → `Math.random()`。
 
-当前发布的纯 UserForm 宏使用 `macro/file-host.js` 直接读写已保存的目标文件，不使用 `tempPath()`、`Env`、`SaveCopyAs` 或临时图片。适配层中的临时目录接口仅为早期幻灯片代码保留，不被当前宏版调用。JS 加载项仍保留其独立的当前文稿读取逻辑。
+宏必须具备：
 
-目标文稿有未保存正文时，宏版要求先保存；不会通过原生保存或临时副本提取内存内容。恢复备份写在目标文稿旁，使用同一个通用文件接口。有 WPS 原生文件接口时，编辑器保存和备份都不触发系统 FFI。
+```js
+FileSystem.readAsBinaryString(path)
+FileSystem.writeAsBinaryString(path, data)
+```
 
-`Platform.OS()` 用于判断文件接口所用系统；缺少该接口且缺少原生文件能力时，依次探测可加载的系统库。不会在已识别的 Windows/macOS 上尝试 Linux 文件接口。新系统实现只需遵守适配层契约，编辑器和 ZIP/XML 逻辑无需改动。
+如果两个接口不存在，宏会停止并提示使用支持 WPS 原生二进制文件接口的版本。宏不会检测 `Platform.OS()`，不会读取 `/proc`，不会加载 libc、libSystem 或 kernel32，也不会访问临时目录。
 
-| 系统 | 文件实现 |
-| --- | --- |
-| Linux | `macro/linux-files.js` 加载 libc，复用 POSIX 分块读写 |
-| macOS | `macro/platform/macos.js` 加载 `/usr/lib/libSystem.B.dylib`；创建使用固定参数 `creat`，避开 Apple Silicon 可变参数 ABI |
-| Windows | `macro/platform/windows.js` 调用 kernel32 的 Unicode 文件接口，支持中文、盘符和 UNC 路径 |
+`macro/file-host.js` 直接读取和写入已保存的 PPTX。保存恢复备份仍通过同一个 WPS `FileSystem` 写入目标文件旁；没有 `SaveCopyAs`、临时快照或临时图片。
 
-`src/uuid.js` 统一输出带花括号的大写 UUID v4 格式 ID，顺序为 `crypto.randomUUID()` → `crypto.getRandomValues()` → `Math.random()`。宏和加载项共用实现，无需读取系统 UUID 文件、加载系统随机数库或启动外部程序。
-
-FFI 为 WPS 宏自带接口，未随模板附带 DLL/dylib/so。32 位 Windows 使用 stdcall；Windows FFI 需要 WPS 12.1.0.23542+。其它平台仍需 WPS 发行版提供 JS 宏、UserForm 和 FFI/原生文件能力。
-
-`tests/platform-services.test.mjs` 验证原生接口优先、没有 Crypto 的纯 JS UUID、文件错误和短读写；`tests/native-platform.test.mjs` 在 CI 三平台调用实际系统文件库，验证所有字节、中文路径、截断、打包宏修改 PPTX 与备份。Koffi 仅为测试依赖，不进入离线安装包或 PPTM。自动检查不等于已经在三平台 WPS 中完成窗体、鼠标事件及 WPS FFI 实测。
-
-接口依据：[WPS FileSystem](https://open.wps.cn/documents/app-integration-dev/wps365/client/wpsoffice/jsapi/addin-api/FileSystem/obj)、[WPS JS 宏 FFI](https://open.wps.cn/documents/app-integration-dev/wps365/client/wpsoffice/wps-integration-mode/wps-macro-editor-development/run-macro/jside-ffi)。
+测试使用内存文件对象和本机磁盘文件模拟 WPS `FileSystem` 契约，验证二进制内容、中文路径、备份及错误处理。测试环境不代表 WPS 客户端本身，实际使用仍需 WPS 开放上述接口。

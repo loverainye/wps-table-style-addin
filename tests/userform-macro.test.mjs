@@ -13,9 +13,10 @@ import { buildUserFormMacro } from '../scripts/build.mjs';
 const root = new URL('..', import.meta.url), dir = await mkdtemp(path.join(tmpdir(), 'wps-userform-bundle-'));
 let project;
 try {
-  const file = path.join(dir, 'runtime.js'); await buildUserFormMacro(file, []);
+  const file = path.join(dir, 'runtime.js'); await buildUserFormMacro(file);
   const bundle = await readFile(file, 'utf8');
   assert.doesNotMatch(bundle, /SaveCopyAs|UserPicture|GotoSlide|SlideShowSettings|SlideColorSurface/);
+  assert.doesNotMatch(bundle, /LoadLibrary|libc\.so|libSystem|kernel32|__WPS_LIBC_PATHS__|\/proc\/|GetTempPath/);
   project = JSON.parse(execFileSync('python3', ['-c',
     'import sys,json;sys.path.insert(0,"scripts");import package_userform_macro as p;'+
     'from userform_color_picker import definitions as colors;'+

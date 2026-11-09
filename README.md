@@ -102,6 +102,4 @@ Linux 使用 `~/.local/share/Kingsoft/wps/jsaddons`；macOS 默认使用 `~/Libr
 
 加载项面向具备 JS 加载项、文件读写和任务窗格接口的 WPS 演示客户端，不适用于 WPS 在线文档；macOS 安装版还需允许 WPS 访问上述沙盒目录。安装脚本测试覆盖三平台，但尚未完成三平台 WPS 界面实机验证。
 
-宏模板需要客户端具备 JS 宏和原生 UserForm。文件读写优先使用 WPS 的全局 `FileSystem` 或 `Application.FileSystem`，缺少时才选择 Linux libc、macOS libSystem 或 Windows kernel32。UUID 优先使用 JS `crypto.randomUUID()` / `crypto.getRandomValues()`，没有 Crypto 时用纯 JS `Math.random()` 生成 UUID v4 格式的 ID，不读取系统 UUID 文件，不调用 FFI。
-
-宏版有 WPS 原生文件接口时不调用 Linux/macOS/Windows 专用 API；只有旧版缺少文件接口时才使用对应系统的 FFI 兜底。三平台测试验证安装脚本、实际系统文件接口和 JS UUID 生成，未替代三平台 WPS 窗体和 FFI 桥接的实机交互验证。Windows 使用 FFI 兜底时需 WPS 12.1.0.23542+；macOS/WPS 的具体发行版也必须开放上述宏能力。更多说明见 [宏版使用](macro/USERFORM-README.md) 和 [平台适配层](docs/platform-adapter.md)。
+宏模板需要客户端具备 JS 宏、原生 UserForm 和 WPS 原生二进制 `FileSystem`。宏版不再检测操作系统、不加载 libc/libSystem/kernel32、不读取 `/proc`，缺少 `FileSystem.readAsBinaryString` / `writeAsBinaryString` 时直接提示升级或更换 WPS。UUID 优先使用 JS `crypto.randomUUID()` / `crypto.getRandomValues()`，没有 Crypto 时用纯 JS `Math.random()` 生成 UUID v4 格式的 ID。更多说明见 [宏版使用](macro/USERFORM-README.md) 和 [平台适配层](docs/platform-adapter.md)。

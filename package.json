@@ -21,7 +21,6 @@
   },
   "devDependencies": {
     "@xmldom/xmldom": "^0.9.12",
-    "esbuild": "0.25.12",
-    "koffi": "2.15.2"
+    "esbuild": "0.25.12"
   }
 }

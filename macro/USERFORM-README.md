@@ -22,6 +22,6 @@
 
 ## 平台能力
 
-编辑器与色盘依赖 WPS JS 宏、原生 UserForm 和文件选择能力。文件读写优先使用全局 `FileSystem` 或 `Application.FileSystem`；有该接口时不调用任何系统专用文件 API。旧版 WPS 缺少该接口时，适配层使用 Linux libc / macOS libSystem / Windows kernel32 兜底。UUID 使用 JS Crypto 或纯 JS 生成，无需系统 API。
+编辑器与色盘依赖 WPS JS 宏、原生 UserForm、文件选择能力和原生二进制 `FileSystem`。文件读写只使用全局 `FileSystem` 或 `Application.FileSystem`，不检测操作系统、不加载 libc/libSystem/kernel32、不调用 FFI；缺少 `readAsBinaryString` / `writeAsBinaryString` 时会直接提示当前 WPS 不支持。UUID 使用 JS Crypto 或纯 JS 生成，无需系统 API。
 
 同一模板适用于三平台，实际能力取决于 WPS 版本。自动测试覆盖打包结构、窗体事件逻辑与三平台系统文件接口；尚未完成三平台 WPS 界面实机验证。需要排查文件接口时，可运行 `DiagnoseTableStyleEditor` 查看实际后端。

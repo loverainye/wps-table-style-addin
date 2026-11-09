@@ -1,4 +1,6 @@
-# 表格样式编辑器 · 幻灯片与 UserForm 宏版 1.0
+# 表格样式编辑器 · 幻灯片与 UserForm 宏版（历史版本）
+
+> 本文件和对应幻灯片宏源码仅作历史兼容记录，当前 v1.0 Release 不再打包。当前版本是纯 UserForm 宏，见 [USERFORM-README.md](USERFORM-README.md)。
 
 离线单文件 PPTM，通过平台适配层支持 Linux、macOS、Windows 的文件与 UUID 接口，需要 WPS 客户端开放 JS 宏和原生 UserForm。同一文件同时提供幻灯片表单和独立 UserForm 用户窗体，无需安装加载项或网络服务。通过「打开 PPTX」编辑已关闭的其它文件，保存只写入目标文件，不自动打开或重新打开。
 

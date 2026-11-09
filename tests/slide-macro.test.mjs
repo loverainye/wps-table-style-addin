@@ -28,7 +28,7 @@ async function combinedProject(m, withSlideControls = false) {
   const dir = await mkdtemp(path.join(tmpdir(), 'wps-combined-macro-'));
   try {
     const bundlePath = path.join(dir, 'runtime.js');
-    await buildSlideMacro(bundlePath, []);
+    await buildSlideMacro(bundlePath);
     const modules = JSON.parse(execFileSync('python3', ['-c',
       'import sys,json;sys.path.insert(0,"scripts");import package_slide_macro as p;'+
       's=(p.ROOT/"macro/slide-code.js").read_text().replace("__TABLE_STYLES_VERSION__",json.dumps("test"));'+
@@ -398,7 +398,7 @@ test('packaged document events resolve slide globals, initialize once and dispat
   const m = await mock(), dir = await mkdtemp(path.join(tmpdir(), 'wps-slide-macro-'));
   try {
     const bundlePath = path.join(dir, 'runtime.js');
-    await buildSlideMacro(bundlePath, []);
+    await buildSlideMacro(bundlePath);
     const bundle = await readFile(bundlePath, 'utf8');
     const source = (await readFile(new URL('../macro/slide-code.js', import.meta.url), 'utf8'))
       .replace('__TABLE_STYLES_VERSION__', '"test"');

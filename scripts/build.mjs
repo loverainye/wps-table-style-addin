@@ -2,7 +2,6 @@ import { build } from 'esbuild';
 import { cp, mkdir, rm, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { wpsLibcPaths } from './linux-libc.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export async function buildAddon(out = path.join(root, 'dist')) {
@@ -13,20 +12,18 @@ export async function buildAddon(out = path.join(root, 'dist')) {
     await build({ entryPoints: [path.join(root, 'src', entry + '.js')], outfile: path.join(out, name + '.js'), bundle: true, format: 'iife', platform: 'browser', target: 'chrome80', minify: true, sourcemap: true });
   }
 }
-export async function buildMacro(out = path.join(root, 'build', 'macro-runtime.js'), libcPaths) {
-  return buildNativeRuntime('runtime.js', 'NativeTableStyles', out, libcPaths);
+export async function buildMacro(out = path.join(root, 'build', 'macro-runtime.js')) {
+  return buildNativeRuntime('runtime.js', 'NativeTableStyles', out);
 }
-export async function buildSlideMacro(out = path.join(root, 'build', 'slide-macro-runtime.js'), libcPaths) {
-  return buildNativeRuntime('slide-runtime.js', 'NativeSlideTableStyles', out, libcPaths);
+export async function buildSlideMacro(out = path.join(root, 'build', 'slide-macro-runtime.js')) {
+  return buildNativeRuntime('slide-runtime.js', 'NativeSlideTableStyles', out);
 }
-export async function buildUserFormMacro(out = path.join(root, 'build', 'userform-macro-runtime.js'), libcPaths) {
-  return buildNativeRuntime('userform-entry-runtime.js', 'NativeUserFormTableStyles', out, libcPaths);
+export async function buildUserFormMacro(out = path.join(root, 'build', 'userform-macro-runtime.js')) {
+  return buildNativeRuntime('userform-entry-runtime.js', 'NativeUserFormTableStyles', out);
 }
-async function buildNativeRuntime(entry, globalName, out, libcPaths) {
+async function buildNativeRuntime(entry, globalName, out) {
   await mkdir(path.dirname(out), { recursive: true });
-  const hints = libcPaths ?? await wpsLibcPaths();
   await build({ entryPoints: [path.join(root, 'macro', entry)], outfile: out, bundle: true,
-    define: { __WPS_LIBC_PATHS__: JSON.stringify(hints) },
     format: 'iife', globalName, platform: 'browser', target: 'chrome80',
     minifyIdentifiers: true, minifySyntax: true, minifyWhitespace: entry === 'runtime.js', legalComments: 'none' });
   // Minifiers may put literal ZIP signature control bytes in JS strings. JDE

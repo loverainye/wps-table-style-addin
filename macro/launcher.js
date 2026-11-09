@@ -41,7 +41,6 @@ function TableStylesRuntimeProbe() {
         UserForm: typeof TableStyleForm,
         Promise: typeof Promise,
         FileSystem: !!fs,
-        ffi: typeof ffi,
         readFileString: fs ? typeof fs.readFileString : "undefined",
         readAsBinaryString: fs ? typeof fs.readAsBinaryString : "undefined",
         writeAsBinaryString: fs ? typeof fs.writeAsBinaryString : "undefined",
@@ -62,7 +61,6 @@ function DiagnoseTableStyleEditor() {
         if (TableStylesFormEditor.cached) {
             var files = TableStylesFormEditor.cached.host.app.FileSystem;
             report += "\n文件接口：" + (files.backend || "WPS FileSystem");
-            if (files.library) report += "\n动态库：" + files.library;
         }
     } catch (error) {
         report += "\n窗体读取失败：" + (error.message || String(error));
