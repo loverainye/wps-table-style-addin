@@ -78,4 +78,4 @@ jobs:
             release/wps-table-style-addin-*.tar.gz
             release/wps-table-style-addin-*.zip
             release/wps-table-style-slide-macro-*.zip
-            release/slide-macro/*.pptm
+            release/wps-table-style-macro-*.pptm

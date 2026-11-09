@@ -229,6 +229,10 @@ def build_macro():
     output = release/f'表格样式编辑器-幻灯片宏版-{VERSION}.pptm'
     with ZipFile(output, 'w', ZIP_DEFLATED) as z:
         for name, data in entries.items(): z.writestr(name, data)
+    # GitHub normalizes non-ASCII asset names. Keep the Chinese name in the ZIP
+    # and provide a stable ASCII filename for the standalone release download.
+    download = ROOT/'release'/f'wps-table-style-macro-{VERSION}.pptm'
+    download.write_bytes(output.read_bytes())
     (release/'编辑器入口.js').write_text(source)
     (release/'控件事件.js').write_text(events)
     (release/'离线运行库.js').write_text(runtime)
@@ -248,7 +252,7 @@ def build_macro():
                                                    'UserForm入口.js', 'UserForm窗体.xml', 'UserForm色盘.xml', 'UserForm启动页预览.png', 'UserForm色盘预览.png',
                                                    '使用说明.md', '界面预览.png', '色盘预览.png', 'jszip-LICENSE.txt', 'xmldom-LICENSE.txt'])]
         for path in files: z.write(path, path.name)
-    print(output); print(archive)
+    print(output); print(download); print(archive)
 
 
 if __name__ == '__main__': build_macro()

@@ -60,7 +60,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 
 ### JS 宏模板
 
-Release 同时提供 `表格样式编辑器-幻灯片宏版-1.0.pptm` 和 `wps-table-style-slide-macro-1.0.zip`。打开 PPTM 并启用 JS 宏：
+Release 同时提供 `wps-table-style-macro-1.0.pptm` 和 `wps-table-style-slide-macro-1.0.zip`。压缩包内保留中文文件名 `表格样式编辑器-幻灯片宏版-1.0.pptm`，与单独下载的英文名模板内容相同。打开 PPTM 并启用 JS 宏：
 
 1. 第 1 页是幻灯片版编辑器。
 2. 第 4 页点击「打开 UserForm 窗体」，使用原生 `TableStyleForm`。
