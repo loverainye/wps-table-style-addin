@@ -6,6 +6,6 @@
 
 使用「打开 PPTX」选择已关闭的目标文件，编辑后点击保存。模板需保留为 PPTM，目标文件仍为普通 PPTX。目标文件旁自动保留备份，保存不自动打开或重开文稿。若目标文件已在 WPS 打开，手动关闭时不要用内存中的旧内容覆盖磁盘上的新样式，再重新打开查看。
 
-宏版目前面向 Linux 桌面 WPS，需要 JS 宏、UserForm、FileDialog 和文件读写能力；缺少 FileSystem 时使用 Linux libc FFI，并从 Linux 系统取得随机 UUID。尚未适配 Windows/macOS 宏运行环境。三平台安装脚本针对 JS 加载项，详见项目 [README](../README.md)。
+宏版需要 JS 宏、UserForm、FileDialog 和文件读写能力。文件读写优先使用 WPS 的全局 `FileSystem` / `Application.FileSystem`，UUID 优先使用 JS Crypto，缺少时才使用当前系统的 Linux libc、macOS libSystem 或 Windows 系统接口。适配层自动选择实现，模板无需按系统分别下载。实际可用性仍取决于该平台 WPS 版本是否开放相应宏能力。详见项目 [README](../README.md)。
 
 `runtime.js`、`form.py` 等文件还保留早期独立窗体的构建入口，当前发布使用 `slide-runtime.js`、`userform-runtime.js` 和 `scripts/package_slide_macro.py`。

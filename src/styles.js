@@ -1,4 +1,6 @@
 import JSZip from 'jszip';
+import { guid } from './uuid.js';
+export { guid };
 
 export const A = 'http://schemas.openxmlformats.org/drawingml/2006/main';
 export const P = 'http://schemas.openxmlformats.org/presentationml/2006/main';
@@ -34,13 +36,6 @@ function ensure(node, tag) {
 }
 function remove(node, names) {
   for (const n of children(node)) if (names.includes(n.localName)) node.removeChild(n);
-}
-export function guid() {
-  if (!globalThis.crypto?.getRandomValues) throw new Error('当前运行环境不支持安全 UUID 生成。');
-  const bytes = crypto.getRandomValues(new Uint8Array(16));
-  bytes[6] = (bytes[6] & 15) | 64; bytes[8] = (bytes[8] & 63) | 128;
-  const s = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
-  return `{${s.slice(0, 8)}-${s.slice(8, 12)}-${s.slice(12, 16)}-${s.slice(16, 20)}-${s.slice(20)}}`;
 }
 function readColor(node) {
   const c = children(node).find(n => COLORS.includes(n.localName));

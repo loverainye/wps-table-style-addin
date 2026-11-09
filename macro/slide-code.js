@@ -107,6 +107,8 @@ function DiagnoseTableStyleEditor() {
         var editor = TableStylesSlideEditor();
         report += "\n初始化：完成";
         report += "\n文件接口：" + (editor.host.app.FileSystem.backend || "WPS FileSystem");
+        var platform = editor.host.app.TableStylePlatform;
+        if (platform) report += "\n系统：" + platform.platform + "\nUUID：" + platform.uuidBackend;
         if (TableStylesOpenFile.lastTimings) report += "\n打开耗时：" + JSON.stringify(TableStylesOpenFile.lastTimings);
         if (editor.picker && editor.picker.form.lastPointer) report += "\n最后取色事件：" + JSON.stringify(editor.picker.form.lastPointer);
     } catch (error) { report += "\n" + (error.message || String(error)); }

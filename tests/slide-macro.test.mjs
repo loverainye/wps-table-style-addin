@@ -46,7 +46,7 @@ async function combinedProject(m, withSlideControls = false) {
       ...items.map(i => [i.native, m.form[i.name]]), ...pickerItems.map(i => [i.native, m.pickerControls[i.name]]),
       ...pickerBItems.map(i => [i.native, m.pickerBControls[i.name]]),
     ]) : {};
-    const context = vm.createContext({ Application: m.app, TableStyleForm: form, TableStyleColorForm: colorForm, ...globals, MsgBox: s => messages.push(s) });
+    const context = vm.createContext({ Platform: { OS: () => 'Linux' }, Application: m.app, TableStyleForm: form, TableStyleColorForm: colorForm, ...globals, MsgBox: s => messages.push(s) });
     const clear = form.Part.Clear;
     form.Part.Clear = function () { clear.call(this); context.TableStyleForm_Part_Change(); };
     for (const module of modules) new vm.Script(module).runInContext(context);
@@ -405,7 +405,7 @@ test('packaged document events resolve slide globals, initialize once and dispat
     const runtime = 'function TableStylesNativeRuntime() {\n'+bundle+'\nreturn NativeSlideTableStyles;\n}';
     const messages = [];
     const globals = Object.fromEntries([...items.map(i => [i.native, m.form[i.name]]), ...pickerItems.map(i => [i.native, m.pickerControls[i.name]]), ...pickerBItems.map(i => [i.native, m.pickerBControls[i.name]])]);
-    const context = vm.createContext({ Application: m.app, ...globals, MsgBox: s => messages.push(s) });
+    const context = vm.createContext({ Platform: { OS: () => 'Linux' }, Application: m.app, ...globals, MsgBox: s => messages.push(s) });
     // Native controls can emit Change while Clear/AddItem is running.
     const clear = m.form.Preset.Clear;
     m.form.Preset.Clear = function () { clear.call(this); context.TsFill_Change(); };
@@ -728,7 +728,7 @@ test('cancelling the first file chooser does not load the runtime or initialize 
   const source = (await readFile(new URL('../macro/slide-code.js', import.meta.url), 'utf8')).replace('__TABLE_STYLES_VERSION__', '"test"');
   m.app.FileDialog = () => ({ Filters: { Clear() {}, Add() {} }, Show() { shows++; return 0; } });
   // Deliberately omit all native globals: the chooser must precede even their resolution.
-  const context = vm.createContext({ Application: m.app, TableStylesNativeRuntime() { runtimes++; throw new Error('must not initialize'); } });
+  const context = vm.createContext({ Platform: { OS: () => 'Linux' }, Application: m.app, TableStylesNativeRuntime() { runtimes++; throw new Error('must not initialize'); } });
   for (const code of [source, eventCode]) new vm.Script(code).runInContext(context);
   const calls = m.form.Fill.addCalls; await context.TsOpenFile_Click();
   assert.equal(shows, 1); assert.equal(runtimes, 0); assert.equal(m.form.Fill.addCalls, calls);

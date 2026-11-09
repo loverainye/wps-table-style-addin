@@ -131,7 +131,7 @@ test('native macro bundle runs with no DOM, timers, crypto or ShowDialog supplie
     const source = (await readFile(new URL('../macro/form-code.js', import.meta.url), 'utf8'))
       .replace('__TABLE_STYLES_NATIVE_BUNDLE__', () => bundle)
       .replace('__TABLE_STYLES_NATIVE_GEOMETRY__', () => JSON.stringify(geometry));
-    const m = await mock(), context = vm.createContext({ Application: m.app, TableStyleForm: m.form });
+    const m = await mock(), context = vm.createContext({ Platform: { OS: () => 'Linux' }, Application: m.app, TableStyleForm: m.form });
     assert.equal(vm.runInContext('typeof DOMParser + ":" + typeof crypto + ":" + typeof setImmediate', context), 'undefined:undefined:undefined');
     new vm.Script(source).runInContext(context);
     context.TableStyleForm_Initialize();
@@ -158,7 +158,7 @@ test('default macro entry initializes before Show and handles synchronous native
     const events = execFileSync('python3', ['-c', 'import sys;sys.path.insert(0,"macro");from form import definitions,event_code;print(event_code(definitions()))'],
       { cwd: new URL('..', import.meta.url), encoding: 'utf8' });
     const m = await mock(), messages = [];
-    const context = vm.createContext({ Application: m.app, TableStyleForm: m.form, MsgBox: s => messages.push(s) });
+    const context = vm.createContext({ Platform: { OS: () => 'Linux' }, Application: m.app, TableStyleForm: m.form, MsgBox: s => messages.push(s) });
     let clears = 0, shows = 0;
     const clear = m.form.Part.Clear;
     m.form.Part.Clear = function () {

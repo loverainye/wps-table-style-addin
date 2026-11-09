@@ -4,7 +4,8 @@ import { readFile, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import vm from 'node:vm';
-import { createLinuxFileSystem, macroApplication } from '../macro/linux-files.js';
+import { createLinuxFileSystem } from '../macro/linux-files.js';
+import { macroApplication } from '../macro/platform-services.js';
 import { buildMacro } from '../scripts/build.mjs';
 import { fixture, plan } from './fixtures.mjs';
 import { binaryString } from '../src/host.js';
@@ -138,7 +139,8 @@ test('macro Application adapter leaves native proxies untouched and delegates li
   assert.equal(host.Presentations, app.Presentations);
   assert.equal(app.FileSystem, undefined);
   const existing = { FileSystem: { readAsBinaryString() {}, writeAsBinaryString() {} } };
-  assert.equal(macroApplication(existing), existing);
+  assert.equal(macroApplication(existing).FileSystem.backend, 'WPS Application.FileSystem');
+  assert.equal(existing.TableStylePlatform, undefined);
   assert.throws(() => macroApplication(app, {}), /ffi.LoadLibrary/);
 });
 
@@ -164,7 +166,7 @@ test('bundled macro with FFI and no Application.FileSystem edits a closed PPTX a
     const hostApp = context.NativeTableStyles.installRuntime(context.Application);
     assert.equal(hostApp.FileSystem.library, library);
     const randomBytes = new Uint8Array(20);
-    context.crypto.getRandomValues(randomBytes);
+    hostApp.TableStylePlatform.getRandomValues(randomBytes);
     assert.equal(Buffer.from(randomBytes).toString('hex'), 'eb0f427656264b15a49917bfbb804bc5eb0f4276');
     const { FileHost } = await import('../src/file-host.js');
     const host = new FileHost(hostApp);

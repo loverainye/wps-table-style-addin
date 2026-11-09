@@ -1,10 +1,11 @@
 import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
 import { FileHost } from '../src/file-host.js';
 import { PARTS, EDGES, BORDER_MIN, BORDER_MAX, guid, preset, readPart, editStyle, parseXML, colorForPreview } from '../src/styles.js';
-import { macroApplication } from './linux-files.js';
+import { macroApplication } from './platform-services.js';
+import { setUUIDProvider } from '../src/uuid.js';
 
 // JSA is a JavaScript runtime, without browser DOM or Web Crypto. Supply the
-// XML implementation with the file, and get style UUIDs from the Linux kernel.
+// XML implementation with the file; platform services supply files and UUIDs.
 // These globals are installed only when the macro is run, never at module scope.
 export function installRuntime(app) {
   const hostApp = macroApplication(app);
@@ -16,20 +17,7 @@ export function installRuntime(app) {
     }
   };
   globalThis.XMLSerializer = XMLSerializer;
-  if (!globalThis.crypto?.getRandomValues) {
-    globalThis.crypto = { getRandomValues(bytes) {
-      const fs = hostApp.FileSystem;
-      if (typeof fs.readFileString !== 'function') throw new Error('当前宏环境缺少 readFileString，无法读取系统随机 UUID。');
-      let at = 0;
-      while (at < bytes.length) {
-        const id = String(fs.readFileString('/proc/sys/kernel/random/uuid')).replace(/\0/g, '').trim();
-        if (!/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(id)) throw new Error('无法读取 Linux 系统随机 UUID。');
-        const hex = id.replace(/-/g, '');
-        for (let i = 0; i < hex.length && at < bytes.length; i += 2) bytes[at++] = parseInt(hex.slice(i, i + 2), 16);
-      }
-      return bytes;
-    } };
-  }
+  setUUIDProvider(() => hostApp.TableStylePlatform.uuid());
   return hostApp;
 }
 

@@ -1,6 +1,6 @@
 # 表格样式编辑器 · 幻灯片与 UserForm 宏版 1.0
 
-离线单文件 PPTM，面向 Linux 桌面 WPS JS 宏环境。同一文件同时提供幻灯片表单和独立 UserForm 用户窗体，无需安装加载项或网络服务。通过「打开 PPTX」编辑已关闭的其它文件，保存只写入目标文件，不自动打开或重新打开。
+离线单文件 PPTM，通过平台适配层支持 Linux、macOS、Windows 的文件与 UUID 接口，需要 WPS 客户端开放 JS 宏和原生 UserForm。同一文件同时提供幻灯片表单和独立 UserForm 用户窗体，无需安装加载项或网络服务。通过「打开 PPTX」编辑已关闭的其它文件，保存只写入目标文件，不自动打开或重新打开。
 
 ## 使用
 
@@ -71,6 +71,6 @@ npm run build:slide-macro
 npm run package:slide-macro
 ```
 
-Linux 文件读写复用 WPS FileSystem / libc FFI 适配器。NixOS 构建时读取正在运行的 WPS 已加载的 libc 路径，并保留常见路径回退。
+文件和 UUID 统一由 `platform-services.js` 提供。优先使用 WPS FileSystem / JS Crypto，缺少时才调用当前系统接口。Linux 使用 libc 和系统 UUID；macOS 使用 libSystem/getentropy；Windows 使用 Unicode 文件 API 和 BCryptGenRandom。NixOS 本地构建还会读取正在运行的 WPS 已加载的 libc 路径，并保留常见路径回退。测试用 Koffi 桥接实际系统 API，不会打包进宏模板。
 
 未修改已安装加载项、WPS 配置、原有独立窗体版、用户样本或参考母版。

@@ -1,5 +1,6 @@
 import { binaryString } from '../src/host.js';
 import { hsvToHex } from './color-picker.js';
+import { guid } from '../src/uuid.js';
 
 export const PLANE = { x: 296, y: 150, w: 560, h: 280 };
 // The swatches occupy their own row; the hue strip is a separate full-width row.
@@ -112,7 +113,7 @@ export class SlideColorSurface {
   paint(name, bytes, page) {
     return this.native('更新渐变图片失败', () => {
       const dir = String(this.app.Env.GetTempPath()).replace(/[\\/]?$/, '/');
-      const path = dir + 'wps-table-color-' + Date.now() + '-' + Math.random().toString(16).slice(2) + '.bmp';
+      const path = dir + 'wps-table-color-' + guid().slice(1, -1) + '.bmp';
       const fs = this.app.FileSystem;
       try {
         fs.writeAsBinaryString(path, binaryString(bytes));

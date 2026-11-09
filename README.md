@@ -1,6 +1,6 @@
 # WPS 演示表格样式编辑器
 
-当前版本：**1.0**。项目提供 WPS JS 加载项（直接编辑当前 PPTX）和内嵌 JS 宏模板（无需安装加载项，可打开其它 PPTX）。JS 加载项提供 Linux、macOS、Windows 安装脚本和离线包；JS 宏模板目前面向 Linux 桌面 WPS。
+当前版本：**1.0**。项目提供 WPS JS 加载项（直接编辑当前 PPTX）和内嵌 JS 宏模板（无需安装加载项，可打开其它 PPTX）。JS 加载项提供 Linux、macOS、Windows 安装脚本和离线包；宏版通过适配层统一三平台文件读写、临时目录和 UUID 接口。
 
 ## 安装
 
@@ -100,4 +100,6 @@ Linux 使用 `~/.local/share/Kingsoft/wps/jsaddons`；macOS 默认使用 `~/Libr
 
 加载项面向具备 JS 加载项、文件读写和任务窗格接口的 WPS 演示客户端，不适用于 WPS 在线文档；macOS 安装版还需允许 WPS 访问上述沙盒目录。安装脚本测试覆盖三平台，但尚未完成三平台 WPS 界面实机验证。
 
-宏模板依赖 JS 宏、原生 UserForm 和 Linux 文件/系统随机 UUID 接口，目前不支持直接在 Windows/macOS 运行。三平台安装支持指 JS 加载项；这些平台的 WPS 版本和授权也需支持 JS 加载项。更多使用说明见 [宏版说明](macro/SLIDE-README.md)。
+宏模板需要客户端具备 JS 宏和原生 UserForm。优先使用 WPS 的全局 `FileSystem` 或 `Application.FileSystem`，UUID 优先使用 JS `crypto.randomUUID()` / `crypto.getRandomValues()`。接口缺失时才按系统选择 FFI 实现：Linux libc、macOS libSystem、Windows kernel32/bcrypt；不要求安装额外运行库或本地服务。
+
+三平台测试验证安装脚本和实际系统文件/随机数接口，未替代三平台 WPS 窗体、放映控件和 FFI 桥接的实机交互验证。Windows 使用 FFI 兜底时需 WPS 12.1.0.23542+；macOS/WPS 的具体发行版也必须开放上述宏能力。更多说明见 [宏版使用](macro/SLIDE-README.md) 和 [平台适配层](docs/platform-adapter.md)。
