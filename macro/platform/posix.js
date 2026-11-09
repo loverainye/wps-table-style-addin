@@ -11,10 +11,10 @@ export const POSIX_SIGNATURE = {
 };
 
 // Linux and Darwin share these function signatures, but not their open flags.
-export function posixFiles(api, library, platform, writeFlags, tempPath) {
+export function posixFiles(api, library, platform, writeFlags, tempPath, openFile = (path, flags, mode) => api.open(path, flags, mode)) {
   const withFile = (path, flags, work) => {
     checkPath(path, platform);
-    const fd = Number(api.open(path, flags, 0o600));
+    const fd = Number(openFile(path, flags, 0o600));
     if (!Number.isInteger(fd) || fd < 0) throw ioError('打开文件', path);
     let failure;
     try { return work(fd); } catch (e) { failure = e; throw e; }

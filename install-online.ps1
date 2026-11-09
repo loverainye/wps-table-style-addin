@@ -1,5 +1,6 @@
 ﻿param([switch]$Remove, [string]$Config)
 $ErrorActionPreference = 'Stop'
+if ([Environment]::OSVersion.Platform -eq [PlatformID]::Win32NT) { Set-ExecutionPolicy -Scope Process Bypass -Force }
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 $Version = '1.0'; $Base = "https://github.com/loverainye/wps-table-style-addin/releases/download/v$Version"
 $Temp = Join-Path ([IO.Path]::GetTempPath()) ("wps-table-style-$([guid]::NewGuid())")

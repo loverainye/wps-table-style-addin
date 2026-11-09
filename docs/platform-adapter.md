@@ -15,7 +15,7 @@
 | 系统 | 文件实现 | UUID 兜底 |
 | --- | --- | --- |
 | Linux | `macro/linux-files.js` 加载 libc，复用 POSIX 分块读写 | `/proc/sys/kernel/random/uuid` |
-| macOS | `macro/platform/macos.js` 加载 `/usr/lib/libSystem.B.dylib`，使用 Darwin 的文件标志 | libSystem `getentropy` |
+| macOS | `macro/platform/macos.js` 加载 `/usr/lib/libSystem.B.dylib`；创建使用固定参数 `creat`，避开 Apple Silicon 可变参数 ABI | libSystem `getentropy` |
 | Windows | `macro/platform/windows.js` 调用 kernel32 的 Unicode 文件接口，支持中文、盘符和 UNC 路径 | bcrypt `BCryptGenRandom` |
 
 `src/uuid.js` 统一输出带花括号的大写 UUID v4。宏运行时注入平台提供者；JS 加载项直接使用浏览器 Crypto。不使用 `Math.random()` 生成样式 ID，也不需要为 UUID 启动外部程序。

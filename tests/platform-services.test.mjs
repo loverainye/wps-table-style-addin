@@ -81,13 +81,18 @@ test('UUID fallbacks use each OS and never silently fall back to Math.random', (
   assert.throws(() => failed.uuid(), /获取系统随机数失败/);
 });
 
-test('Darwin file fallback loads libSystem with Darwin create/truncate flags', () => {
+test('Darwin file fallback uses fixed-signature creat to avoid Apple arm64 variadic open ABI', () => {
   const calls = [];
-  const api = { open(p, flags) { calls.push([p, flags]); return 3; }, close: () => 0, fsync: () => 0,
+  const api = { open: () => 3, creat(p, mode) { calls.push([p, mode]); return 3; }, close: () => 0, fsync: () => 0,
     write: (fd, ptr, size) => size, read: () => 0n, access: () => 0, unlink: () => 0, getenv: () => '/var/folders/wps/temp/' };
-  const files = createMacFileSystem({ LoadLibrary(name) { assert.equal(name, '/usr/lib/libSystem.B.dylib'); return api; } });
+  const files = createMacFileSystem({ LoadLibrary(name, signature) {
+    assert.equal(name, '/usr/lib/libSystem.B.dylib');
+    assert.deepEqual(signature.open.parameters, ['string', 'int32']);
+    assert.deepEqual(signature.creat.parameters, ['string', 'uint32']);
+    return api;
+  } });
   files.writeAsBinaryString('/文稿/中文.pptx', 'abc');
-  assert.deepEqual(calls, [['/文稿/中文.pptx', 1537]]);
+  assert.deepEqual(calls, [['/文稿/中文.pptx', 0o600]]);
   assert.equal(files.tempPath(), '/var/folders/wps/temp/');
   assert.throws(() => files.writeAsBinaryString('relative', ''), /绝对路径/);
 });
