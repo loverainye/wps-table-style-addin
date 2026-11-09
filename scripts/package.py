@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parent.parent
 version = json.loads((ROOT / 'package.json').read_text(encoding='utf-8'))['version']
 release = ROOT / 'release'
 release.mkdir(exist_ok=True)
-required = ['install.sh', 'uninstall.sh', 'README.md', 'package.json', 'scripts/install.py', 'macro/README.md', 'macro/SLIDE-README.md', 'docs/platform-adapter.md']
+required = ['install.sh', 'uninstall.sh', 'README.md', 'package.json', 'scripts/install.py', 'macro/README.md', 'macro/USERFORM-README.md', 'docs/platform-adapter.md']
 for name in required + ['dist/js/main.js', 'dist/ribbon.xml', 'dist/editor.html', 'dist/editor.js', 'dist/editor.css', 'dist/table-style.svg']:
     if not (ROOT / name).is_file():
         raise SystemExit(f'缺少 {name}，请先构建。')

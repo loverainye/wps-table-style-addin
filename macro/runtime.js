@@ -1,5 +1,5 @@
 import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
-import { FileHost } from '../src/file-host.js';
+import { MacroFileHost as FileHost } from './file-host.js';
 import { PARTS, EDGES, BORDER_MIN, BORDER_MAX, guid, preset, readPart, editStyle, parseXML, colorForPreview } from '../src/styles.js';
 import { macroApplication } from './platform-services.js';
 import { setUUIDProvider } from '../src/uuid.js';

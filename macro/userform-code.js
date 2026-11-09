@@ -1,4 +1,4 @@
-/* Additional entry in the combined PPTM; no slide editor is initialized here. */
+/* Native UserForm entry; no slide editor or slide controls are needed. */
 function OpenTableStyleUserForm() {
     try {
         if (typeof TableStyleForm === "undefined") throw new Error("缺少文件内的 TableStyleForm 窗体资源，请打开完整 PPTM。");

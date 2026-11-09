@@ -6,7 +6,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import koffi from 'koffi';
 import { createPlatformServices } from '../macro/platform-services.js';
-import { buildMacro } from '../scripts/build.mjs';
+import { buildUserFormMacro } from '../scripts/build.mjs';
 import { fixture, plan } from './fixtures.mjs';
 import { openDeck, readPart } from '../src/styles.js';
 
@@ -56,15 +56,15 @@ test('actual bundled macro on this OS edits a PPTX through system FFI, verifies 
   const dir = await mkdtemp(path.join(os.tmpdir(), 'wps-native-deck-'));
   try {
     const runtime = path.join(dir, 'macro.js'), file = path.join(dir, '目标文稿.pptx');
-    await buildMacro(runtime, []);
+    await buildUserFormMacro(runtime, []);
     const root = nativeRoot(), original = await fixture();
     const sourceServices = createPlatformServices({}, root);
     sourceServices.files.writeAsBinaryString(file, original.reduce((s, b) => s + String.fromCharCode(b), ''));
     const app = { Presentations: { Count: 0 }, ActivePresentation: { FullName: path.join(dir, 'tool.pptm') } };
     const context = vm.createContext({ ...root, Application: app });
     vm.runInContext('globalThis.setImmediate = callback => Promise.resolve().then(callback);' + await readFile(runtime, 'utf8'), context);
-    const adapted = context.NativeTableStyles.installRuntime(app);
-    const host = new context.NativeTableStyles.NativeEditor(adapted, {}).host; host.path = file;
+    const adapted = context.NativeUserFormTableStyles.installRuntime(app);
+    const host = new context.NativeUserFormTableStyles.UserFormEditor(adapted, {}).host; host.path = file;
     const info = await host.inspect();
     const result = await host.apply(plan({ path: file, sourceXML: info.styles[0].xml }));
     const output = await openDeck(await readFile(file));

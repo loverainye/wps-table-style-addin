@@ -19,13 +19,16 @@ export async function buildMacro(out = path.join(root, 'build', 'macro-runtime.j
 export async function buildSlideMacro(out = path.join(root, 'build', 'slide-macro-runtime.js'), libcPaths) {
   return buildNativeRuntime('slide-runtime.js', 'NativeSlideTableStyles', out, libcPaths);
 }
+export async function buildUserFormMacro(out = path.join(root, 'build', 'userform-macro-runtime.js'), libcPaths) {
+  return buildNativeRuntime('userform-entry-runtime.js', 'NativeUserFormTableStyles', out, libcPaths);
+}
 async function buildNativeRuntime(entry, globalName, out, libcPaths) {
   await mkdir(path.dirname(out), { recursive: true });
   const hints = libcPaths ?? await wpsLibcPaths();
   await build({ entryPoints: [path.join(root, 'macro', entry)], outfile: out, bundle: true,
     define: { __WPS_LIBC_PATHS__: JSON.stringify(hints) },
     format: 'iife', globalName, platform: 'browser', target: 'chrome80',
-    minifyIdentifiers: true, minifySyntax: true, minifyWhitespace: entry !== 'slide-runtime.js', legalComments: 'none' });
+    minifyIdentifiers: true, minifySyntax: true, minifyWhitespace: entry === 'runtime.js', legalComments: 'none' });
   // Minifiers may put literal ZIP signature control bytes in JS strings. JDE
   // stores this source in XML 1.0, so retain their JS value using escapes.
   const code = (await readFile(out, 'utf8')).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g,
@@ -36,6 +39,6 @@ async function buildNativeRuntime(entry, globalName, out, libcPaths) {
 // Keep the package free of index.html, per WPS offline add-in startup requirements.
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   await buildAddon();
-  await buildMacro();
+  await buildUserFormMacro();
   console.log('已生成 dist/：WPS 演示离线加载项；Linux/macOS 使用 install.sh，Windows 使用 install.ps1。');
 }

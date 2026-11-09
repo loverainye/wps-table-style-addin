@@ -1,6 +1,6 @@
 # WPS 演示表格样式编辑器
 
-当前版本：**1.0**。项目提供 WPS JS 加载项（直接编辑当前 PPTX）和内嵌 JS 宏模板（无需安装加载项，可打开其它 PPTX）。JS 加载项提供 Linux、macOS、Windows 安装脚本和离线包；宏版通过适配层统一三平台文件读写、临时目录和 UUID 接口。
+当前版本：**1.0**。项目提供 WPS JS 加载项（直接编辑当前 PPTX）和内嵌 JS 宏模板（无需安装加载项，可打开其它 PPTX）。JS 加载项提供 Linux、macOS、Windows 安装脚本和离线包；宏版编辑器和色盘全部使用原生 UserForm，通过适配层统一三平台文件读写，UUID 由 JS 生成。
 
 ## 安装
 
@@ -60,12 +60,14 @@ Set-ExecutionPolicy -Scope Process Bypass
 
 ### JS 宏模板
 
-Release 同时提供 `wps-table-style-macro-1.0.pptm` 和 `wps-table-style-slide-macro-1.0.zip`。压缩包内保留中文文件名 `表格样式编辑器-幻灯片宏版-1.0.pptm`，与单独下载的英文名模板内容相同。打开 PPTM 并启用 JS 宏：
+Release 同时提供 `wps-table-style-macro-1.0.pptm` 和 `wps-table-style-macro-1.0.zip`。压缩包内文件名为 `表格样式编辑器-UserForm-1.0.pptm`，与单独下载的英文名模板内容相同。打开 PPTM 并启用 JS 宏：
 
-1. 第 1 页是幻灯片版编辑器。
-2. 第 4 页点击「打开 UserForm 窗体」，使用原生 `TableStyleForm`。
-3. UserForm 的颜色按钮打开原生 `TableStyleColorForm`，取色过程不切换 PPT 页面。
-4. 也可以在宏编辑器运行 `OpenTableStyleEditor` 或 `OpenTableStyleUserForm`。
+1. 在宏列表或宏编辑器运行 `OpenTableStyleEditor`（也可运行 `OpenTableStyleUserForm`）。
+2. 原生 `TableStyleForm` 打开后，使用「打开 PPTX」选择目标文件，或使用「当前文稿」。
+3. 颜色按钮打开原生 `TableStyleColorForm`，取色过程不切换 PPT 页面。
+4. 编辑完成后保存；需查看新样式时，手动重新打开目标 PPTX。
+
+PPTM 只保留一页静态说明，已移除幻灯片编辑器、幻灯片色盘和页面启动按钮，不需要进入放映模式。宏版直接读取已保存的目标文件，不生成临时快照、不调用 `SaveCopyAs`、不使用临时目录或临时图片。已打开的目标文稿若有未保存修改，先保存正文再使用宏；宏不会代替 WPS 保存正文。恢复备份仍保存在目标文件旁。
 
 宏模板本身必须保存为 PPTM；它编辑的目标文稿仍然是普通 PPTX。宏模板不需要安装 JS 加载项。
 
@@ -81,15 +83,15 @@ Release 同时提供 `wps-table-style-macro-1.0.pptm` 和 `wps-table-style-slide
 
 ## 从源码构建
 
-构建需要 Node.js 22、Python 3.9+、Pillow、fontconfig 和中文字体（例如 Noto Sans CJK）。
+构建需要 Node.js 22、Python 3.9+；当前发行包无需 Pillow、fontconfig 或额外字体。
 
 ```bash
 npm ci
 npm test
 npm run build
 python3 scripts/package.py
-npm run build:slide-macro
-python3 scripts/package_slide_macro.py
+npm run build:userform-macro
+npm run package:macro
 ```
 
 发布工作流位于 `.github/workflows/release.yml`，推送 `v1.0` 标签会运行测试、构建三平台 JS 加载项安装包并发布 JS 宏模板。运行时不需要 Node.js、Python 或网络；在线安装脚本只用于下载 Release 资产。
@@ -102,4 +104,4 @@ Linux 使用 `~/.local/share/Kingsoft/wps/jsaddons`；macOS 默认使用 `~/Libr
 
 宏模板需要客户端具备 JS 宏和原生 UserForm。文件读写优先使用 WPS 的全局 `FileSystem` 或 `Application.FileSystem`，缺少时才选择 Linux libc、macOS libSystem 或 Windows kernel32。UUID 优先使用 JS `crypto.randomUUID()` / `crypto.getRandomValues()`，没有 Crypto 时用纯 JS `Math.random()` 生成 UUID v4 格式的 ID，不读取系统 UUID 文件，不调用 FFI。
 
-三平台测试验证安装脚本、实际系统文件接口和 JS UUID 生成，未替代三平台 WPS 窗体、放映控件和 FFI 桥接的实机交互验证。Windows 使用 FFI 兜底时需 WPS 12.1.0.23542+；macOS/WPS 的具体发行版也必须开放上述宏能力。更多说明见 [宏版使用](macro/SLIDE-README.md) 和 [平台适配层](docs/platform-adapter.md)。
+宏版有 WPS 原生文件接口时不调用 Linux/macOS/Windows 专用 API；只有旧版缺少文件接口时才使用对应系统的 FFI 兜底。三平台测试验证安装脚本、实际系统文件接口和 JS UUID 生成，未替代三平台 WPS 窗体和 FFI 桥接的实机交互验证。Windows 使用 FFI 兜底时需 WPS 12.1.0.23542+；macOS/WPS 的具体发行版也必须开放上述宏能力。更多说明见 [宏版使用](macro/USERFORM-README.md) 和 [平台适配层](docs/platform-adapter.md)。

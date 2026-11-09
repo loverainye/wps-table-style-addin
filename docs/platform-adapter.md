@@ -10,6 +10,10 @@ WPS 文件能力优先，UUID 完全由 JS 生成，各项能力独立选择：
 | 临时目录 | `Application.Env.GetTempPath()`、全局 `Env`、`FileSystem.tmpdir()` | Linux `/tmp`；macOS `TMPDIR`；Windows `GetTempPathW` |
 | UUID v4 | JS `crypto.randomUUID()`，其次 `crypto.getRandomValues()` | 纯 JS `Math.random()` 生成 UUID v4 格式的 ID |
 
+当前发布的纯 UserForm 宏使用 `macro/file-host.js` 直接读写已保存的目标文件，不使用 `tempPath()`、`Env`、`SaveCopyAs` 或临时图片。适配层中的临时目录接口仅为早期幻灯片代码保留，不被当前宏版调用。JS 加载项仍保留其独立的当前文稿读取逻辑。
+
+目标文稿有未保存正文时，宏版要求先保存；不会通过原生保存或临时副本提取内存内容。恢复备份写在目标文稿旁，使用同一个通用文件接口。有 WPS 原生文件接口时，编辑器保存和备份都不触发系统 FFI。
+
 `Platform.OS()` 用于判断文件接口所用系统；缺少该接口且缺少原生文件能力时，依次探测可加载的系统库。不会在已识别的 Windows/macOS 上尝试 Linux 文件接口。新系统实现只需遵守适配层契约，编辑器和 ZIP/XML 逻辑无需改动。
 
 | 系统 | 文件实现 |

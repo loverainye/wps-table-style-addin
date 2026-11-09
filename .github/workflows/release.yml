@@ -61,14 +61,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: sudo apt-get update && sudo apt-get install -y fontconfig fonts-noto-cjk
-      - run: python -m pip install --upgrade pillow
       - run: npm ci
       - run: npm test
       - run: npm run build
       - run: python3 scripts/package.py
-      - run: npm run build:slide-macro
-      - run: python3 scripts/package_slide_macro.py
+      - run: npm run build:userform-macro
+      - run: npm run package:macro
       - name: Publish GitHub release assets
         uses: softprops/action-gh-release@v2
         with:
@@ -77,5 +75,5 @@ jobs:
           files: |
             release/wps-table-style-addin-*.tar.gz
             release/wps-table-style-addin-*.zip
-            release/wps-table-style-slide-macro-*.zip
+            release/wps-table-style-macro-*.zip
             release/wps-table-style-macro-*.pptm
